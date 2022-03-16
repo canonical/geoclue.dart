@@ -2,4 +2,5 @@
 library geoclue;
 
 export 'src/accuracy_level.dart';
+export 'src/client.dart';
 export 'src/location.dart';
