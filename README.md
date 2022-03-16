@@ -1,5 +1,8 @@
 # GeoClue for Dart
 
+[![CI](https://github.com/jpnurmi/geoclue.dart/workflows/Tests/badge.svg)](https://github.com/jpnurmi/geoclue.dart/actions/workflows/tests.yaml)
+[![codecov](https://codecov.io/gh/jpnurmi/geoclue.dart/branch/main/graph/badge.svg?token=4GfsNIhvdS)](https://codecov.io/gh/jpnurmi/geoclue.dart)
+
 [GeoClue](https://gitlab.freedesktop.org/geoclue/geoclue/-/wikis/home): The Geolocation Service
 
 ```dart
