@@ -10,7 +10,6 @@ platforms:
   linux:
 
 dependencies:
-  collection: ^1.16.0
   dbus: ^0.7.1
   meta: ^1.7.0
 
