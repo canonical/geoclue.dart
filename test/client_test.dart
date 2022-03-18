@@ -15,9 +15,8 @@ void main() {
     final object = createMockRemoteObject();
 
     final client = GeoClueClient(object);
-    await client.start('client_test');
+    await client.start();
     verifyInOrder([
-      object.setProperty(kClient, 'DesktopId', const DBusString('client_test')),
       object.callMethod(kClient, 'Start', [],
           replySignature: DBusSignature('')),
       object.getAllProperties(kClient),
@@ -61,7 +60,7 @@ void main() {
     );
 
     final client = GeoClueClient(object);
-    await client.start('');
+    await client.start();
 
     // init
     const l1 = GeoClueLocation(accuracy: 0.1, latitude: 1.2, longitude: 2.3);
@@ -90,7 +89,7 @@ void main() {
     expect(client.isActive, isFalse);
 
     // init
-    await client.start('');
+    await client.start();
     expect(client.isActive, isTrue);
 
     // changed
@@ -112,13 +111,8 @@ void main() {
     expect(client.desktopId, isEmpty);
 
     // init
-    await client.start('client_test');
+    await client.start();
     expect(client.desktopId, equals('client_test'));
-    verify(object.setProperty(
-      kClient,
-      'DesktopId',
-      const DBusString('client_test'),
-    )).called(1);
 
     // changed
     controller.add(createMockPropertiesChangedSignal(
@@ -147,7 +141,7 @@ void main() {
     expect(client.distanceThreshold, isZero);
 
     // init
-    await client.start('');
+    await client.start();
     expect(client.distanceThreshold, equals(12));
 
     // changed
@@ -177,7 +171,7 @@ void main() {
     expect(client.requestedAccuracyLevel, equals(GeoClueAccuracyLevel.none));
 
     // init
-    await client.start('');
+    await client.start();
     expect(client.requestedAccuracyLevel, equals(GeoClueAccuracyLevel.city));
 
     // changed
@@ -211,7 +205,7 @@ void main() {
     expect(client.timeThreshold, isZero);
 
     // init
-    await client.start('');
+    await client.start();
     expect(client.timeThreshold, equals(12));
 
     // changed

@@ -5,7 +5,8 @@ Future<void> main() async {
   await manager.connect();
 
   final client = await manager.getClient();
-  await client.start('geoclue.dart');
+  await client.setDesktopId('geoclue.dart');
+  await client.start();
 
   print(await client.getLocation());
 

@@ -20,15 +20,18 @@ class GeoClueClient {
   StreamSubscription? _propertySubscription;
 
   /// Start receiving events about the current location.
-  Future<void> start(String desktopId) {
+  ///
+  /// This method throws a [DBusAccessDeniedException] if the geoclue daemon
+  /// can't determine the desktop ID of the calling app. In this case use
+  /// [setDesktopId] to set this before using.
+  Future<void> start() {
     _propertySubscription ??= _object.propertiesChanged.listen((signal) {
       if (signal.propertiesInterface == kClient) {
         _updateProperties(signal.changedProperties);
       }
     });
-    return setDesktopId(desktopId)
-        .then((_) => _object.callMethod(kClient, 'Start', [],
-            replySignature: DBusSignature('')))
+    return _object
+        .callMethod(kClient, 'Start', [], replySignature: DBusSignature(''))
         .then((_) => _object.getAllProperties(kClient))
         .then(_updateProperties);
   }
