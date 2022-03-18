@@ -18,12 +18,15 @@ void main() {
     await client.start('client_test');
     verifyInOrder([
       object.setProperty(kClient, 'DesktopId', const DBusString('client_test')),
-      object.callMethod(kClient, 'Start', []),
+      object.callMethod(kClient, 'Start', [],
+          replySignature: DBusSignature('')),
       object.getAllProperties(kClient),
     ]);
 
     await client.stop();
-    verify(object.callMethod(kClient, 'Stop', [])).called(1);
+    verify(object.callMethod(kClient, 'Stop', [],
+            replySignature: DBusSignature('')))
+        .called(1);
   });
 
   test('must start', () async {
@@ -256,10 +259,18 @@ MockDBusRemoteObject createMockRemoteObject({
       .thenAnswer((_) => propertiesChanged ?? const Stream.empty());
   when(object.getAllProperties(kClient))
       .thenAnswer((_) async => properties ?? {});
-  when(object.callMethod(kClient, 'Start', []))
-      .thenAnswer((_) async => startResponse ?? DBusMethodSuccessResponse());
-  when(object.callMethod(kClient, 'Stop', []))
-      .thenAnswer((_) async => stopResponse ?? DBusMethodSuccessResponse());
+  when(object.callMethod(
+    kClient,
+    'Start',
+    [],
+    replySignature: DBusSignature(''),
+  )).thenAnswer((_) async => startResponse ?? DBusMethodSuccessResponse());
+  when(object.callMethod(
+    kClient,
+    'Stop',
+    [],
+    replySignature: DBusSignature(''),
+  )).thenAnswer((_) async => stopResponse ?? DBusMethodSuccessResponse());
   return object;
 }
 

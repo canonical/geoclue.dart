@@ -27,7 +27,8 @@ class GeoClueClient {
       }
     });
     return setDesktopId(desktopId)
-        .then((_) => _object.callMethod(kClient, 'Start', []))
+        .then((_) => _object.callMethod(kClient, 'Start', [],
+            replySignature: DBusSignature('')))
         .then((_) => _object.getAllProperties(kClient))
         .then(_updateProperties);
   }
@@ -36,7 +37,8 @@ class GeoClueClient {
   Future<void> stop() async {
     await _propertySubscription?.cancel();
     _propertySubscription = null;
-    await _object.callMethod(kClient, 'Stop', []);
+    await _object.callMethod(kClient, 'Stop', [],
+        replySignature: DBusSignature(''));
   }
 
   /// Whether the client is currently active.

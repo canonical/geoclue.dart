@@ -35,7 +35,9 @@ void main() {
     final manager = GeoClueManager(object: object);
     final client = await manager.getClient();
     expect(client.toString(), 'GeoClueClient(/Path/To/Client)');
-    verify(object.callMethod(kManager, 'GetClient', [])).called(1);
+    verify(object.callMethod(kManager, 'GetClient', [],
+            replySignature: DBusSignature('o')))
+        .called(1);
   });
 
   test('create client', () async {
@@ -43,7 +45,9 @@ void main() {
     final manager = GeoClueManager(object: object);
     final client = await manager.createClient();
     expect(client.toString(), 'GeoClueClient(/Created/Client)');
-    verify(object.callMethod(kManager, 'CreateClient', [])).called(1);
+    verify(object.callMethod(kManager, 'CreateClient', [],
+            replySignature: DBusSignature('o')))
+        .called(1);
   });
 
   test('delete client', () async {
@@ -52,7 +56,8 @@ void main() {
     final client = await manager.createClient();
     await manager.deleteClient(client);
     verify(object.callMethod(
-            kManager, 'DeleteClient', [DBusObjectPath('/Created/Client')]))
+            kManager, 'DeleteClient', [DBusObjectPath('/Created/Client')],
+            replySignature: DBusSignature('')))
         .called(1);
   });
 
@@ -115,13 +120,28 @@ MockDBusRemoteObject createMockRemoteObject({
       .thenAnswer((_) => propertiesChanged ?? const Stream.empty());
   when(object.getAllProperties(kManager))
       .thenAnswer((_) async => properties ?? {});
-  when(object.callMethod(kManager, 'CreateClient', [])).thenAnswer((_) async =>
-      DBusMethodSuccessResponse([DBusObjectPath('/Created/Client')]));
-  when(object.callMethod(kManager, 'GetClient', [])).thenAnswer((_) async =>
+  when(object.callMethod(
+    kManager,
+    'CreateClient',
+    [],
+    replySignature:
+        argThat(equals(DBusSignature('o')), named: 'replySignature'),
+  )).thenAnswer((_) async {
+    return DBusMethodSuccessResponse([DBusObjectPath('/Created/Client')]);
+  });
+  when(object.callMethod(
+    kManager,
+    'GetClient',
+    [],
+    replySignature: DBusSignature('o'),
+  )).thenAnswer((_) async =>
       DBusMethodSuccessResponse([DBusObjectPath('/Path/To/Client')]));
   when(object.callMethod(
-          kManager, 'DeleteClient', [DBusObjectPath('/Created/Client')]))
-      .thenAnswer((_) async => DBusMethodSuccessResponse());
+    kManager,
+    'DeleteClient',
+    [DBusObjectPath('/Created/Client')],
+    replySignature: argThat(equals(DBusSignature('')), named: 'replySignature'),
+  )).thenAnswer((_) async => DBusMethodSuccessResponse());
   return object;
 }
 

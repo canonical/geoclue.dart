@@ -60,18 +60,22 @@ class GeoClueManager {
   /// On the first call, this method will create the client object but
   /// subsequent calls will return the existing client.
   Future<GeoClueClient> getClient() {
-    return _object.callMethod(kManager, 'GetClient', []).then((response) {
-      return _buildClient(response.values.first as DBusObjectPath);
-    });
+    return _object
+        .callMethod(kManager, 'GetClient', [],
+            replySignature: DBusSignature('o'))
+        .then((response) =>
+            _buildClient(response.values.first as DBusObjectPath));
   }
 
   /// Creates and retrieves a client object.
   ///
   /// Unlike [getClient], this method always creates a new client.
   Future<GeoClueClient> createClient() {
-    return _object.callMethod(kManager, 'CreateClient', []).then((response) {
-      return _buildClient(response.values.first as DBusObjectPath);
-    });
+    return _object
+        .callMethod(kManager, 'CreateClient', [],
+            replySignature: DBusSignature('o'))
+        .then((response) =>
+            _buildClient(response.values.first as DBusObjectPath));
   }
 
   GeoClueClient _buildClient(DBusObjectPath path) {
@@ -92,7 +96,8 @@ class GeoClueManager {
   Future<void> deleteClient(GeoClueClient client) {
     final path = _clients.remove(client);
     assert(path != null);
-    return _object.callMethod(kManager, 'DeleteClient', [path!]);
+    return _object.callMethod(kManager, 'DeleteClient', [path!],
+        replySignature: DBusSignature(''));
   }
 
   /// Stream of property names as they change.
