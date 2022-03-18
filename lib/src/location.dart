@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 
 import 'util.dart';
 
-/// This is the interface you use on location objects.
+/// Defines a geolocation
 @immutable
 class GeoClueLocation {
   /// Creates a new [GeoClueLocation].

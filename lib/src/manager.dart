@@ -10,6 +10,7 @@ import 'util.dart';
 
 /// The GeoClue service manager
 class GeoClueManager {
+  /// Creates a new GeoClueManager connected to the system D-Bus.
   GeoClueManager({DBusClient? bus, @visibleForTesting DBusRemoteObject? object})
       : _bus = bus,
         _object = object ?? _createRemoteObject(bus);

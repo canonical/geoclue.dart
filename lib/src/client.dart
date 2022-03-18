@@ -7,8 +7,8 @@ import 'geoclue.dart';
 import 'location.dart';
 import 'util.dart';
 
-/// A client to retrieve location information and receive location update events
-/// from the GeoClue service.
+/// Retrieves location information and receives location update events from the
+/// the GeoClue service.
 class GeoClueClient {
   /// @internal
   GeoClueClient(this._object);
@@ -21,7 +21,7 @@ class GeoClueClient {
 
   /// Start receiving events about the current location.
   ///
-  /// This method throws a [DBusAccessDeniedException] if the geoclue daemon
+  /// This method throws a [DBusAccessDeniedException] if the GeoClue daemon
   /// can't determine the desktop ID of the calling app. In this case use
   /// [setDesktopId] to set this before using.
   Future<void> start() {
@@ -49,7 +49,7 @@ class GeoClueClient {
   /// An active client was successfully started using [start] and is receiving
   /// location updates.
   ///
-  /// Please keep in mind that geoclue can at any time stop and start the client
+  /// Please keep in mind that GeoClue can at any time stop and start the client
   /// on user (agent) request. Applications that are interested in in these
   /// changes, should watch for changes in this property.
   bool get active => _getProperty('Active', false);
@@ -103,22 +103,36 @@ class GeoClueClient {
   /// signal.
   int get timeThreshold => _getProperty('TimeThreshold', 0);
 
-  /// Sets the desktop ID.
+  /// Sets the desktop file ID (the basename of the desktop file).
+  ///
+  /// This property must be set by applications for authorization to work.
+  ///
+  /// See also:
+  ///  * [Desktop Entry Specification](https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id)
   Future<void> setDesktopId(String id) {
     return _setProperty('DesktopId', DBusString(id));
   }
 
-  /// Sets the distance threshold.
+  /// Sets the distance threshold in meters.
+  //
+  /// See also:
+  ///  * [distanceThreshold]
   Future<void> setDistanceThreshold(int threshold) {
     return _setProperty('DistanceThreshold', DBusUint32(threshold));
   }
 
   /// Sets the requested accuracy level.
+  ///
+  /// See also:
+  ///  * [requestedAccuracyLevel]
   Future<void> setRequestedAccuracyLevel(GeoClueAccuracyLevel level) {
     return _setProperty('RequestedAccuracyLevel', DBusUint32(level.index));
   }
 
-  /// Sets the time threshold.
+  /// Sets the time threshold in seconds.
+  ///
+  /// See also:
+  ///  * [timeThreshold]
   Future<void> setTimeThreshold(int threshold) {
     return _setProperty('TimeThreshold', DBusUint32(threshold));
   }
