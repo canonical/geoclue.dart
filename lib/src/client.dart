@@ -52,7 +52,7 @@ class GeoClueClient {
   /// Please keep in mind that geoclue can at any time stop and start the client
   /// on user (agent) request. Applications that are interested in in these
   /// changes, should watch for changes in this property.
-  bool get isActive => _getProperty('Active', false);
+  bool get active => _getProperty('Active', false);
 
   /// Returns the current location.
   ///
@@ -62,7 +62,7 @@ class GeoClueClient {
   /// "LocationUpdated" signal is called for the first time after starting the
   /// client.
   Future<GeoClueLocation> getLocation() {
-    assert(isActive, 'GeoClueClient.start() must be called first.');
+    assert(active, 'GeoClueClient.start() must be called first.');
     return _buildLocation(_properties['Location'] as DBusObjectPath);
   }
 

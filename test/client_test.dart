@@ -86,18 +86,18 @@ void main() {
     );
 
     final client = GeoClueClient(object);
-    expect(client.isActive, isFalse);
+    expect(client.active, isFalse);
 
     // init
     await client.start();
-    expect(client.isActive, isTrue);
+    expect(client.active, isTrue);
 
     // changed
     controller.add(createMockPropertiesChangedSignal(
       {'Active': const DBusBoolean(false)},
     ));
     await expectLater(client.propertiesChanged, emits(['Active']));
-    expect(client.isActive, isFalse);
+    expect(client.active, isFalse);
   });
 
   test('desktop id', () async {
