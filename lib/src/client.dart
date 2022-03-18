@@ -56,14 +56,12 @@ class GeoClueClient {
 
   /// Returns the current location.
   ///
-  /// Please note that this property will be set to "/" (D-Bus equivalent of
-  /// null) initially, until Geoclue finds user's location.
-  /// You want to delay reading this property until your callback to
+  /// Please note that this returns null initially, until Geoclue finds user's
+  /// location. You want to delay reading this property until your callback to
   /// "LocationUpdated" signal is called for the first time after starting the
   /// client.
-  Future<GeoClueLocation> getLocation() {
-    assert(active, 'GeoClueClient.start() must be called first.');
-    return _buildLocation(_properties['Location'] as DBusObjectPath);
+  Future<GeoClueLocation?> getLocation() {
+    return _buildLocation(_properties['Location'] as DBusObjectPath?);
   }
 
   /// A stream of location updates.
@@ -128,7 +126,8 @@ class GeoClueClient {
   /// Stream of property names as they change.
   Stream<List<String>> get propertiesChanged => _propertyController.stream;
 
-  Future<GeoClueLocation> _buildLocation(DBusObjectPath path) async {
+  Future<GeoClueLocation?> _buildLocation(DBusObjectPath? path) async {
+    if (path == null) return null;
     final object = DBusRemoteObject(_object.client, name: kBus, path: path);
     final properties = await object.getAllProperties(kLocation);
     return GeoClueLocation.fromProperties(properties);
@@ -142,14 +141,16 @@ class GeoClueClient {
     return _object.setProperty(kClient, key, value);
   }
 
-  Future<void> _updateProperties(Map<String, DBusValue> properties) async {
+  Future<void> _updateProperties(Map<String, DBusValue> properties) {
     _properties.addAll(properties);
     _propertyController.add(properties.keys.toList());
 
-    final location = properties['Location'] as DBusObjectPath?;
-    if (location != null) {
-      return _buildLocation(location).then(_locationController.add);
-    }
+    return _buildLocation(properties['Location'] as DBusObjectPath?)
+        .then((location) {
+      if (location != null) {
+        _locationController.add(location);
+      }
+    });
   }
 
   @override

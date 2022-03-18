@@ -28,13 +28,11 @@ void main() {
         .called(1);
   });
 
-  test('must start', () async {
-    final object = createMockRemoteObject(
-      properties: {'Active': const DBusBoolean(false)},
-    );
+  test('null initial location', () async {
+    final object = createMockRemoteObject();
 
     final client = GeoClueClient(object);
-    await expectLater(client.getLocation, throwsA(isA<AssertionError>()));
+    expect(await client.getLocation(), isNull);
   });
 
   test('location', () async {
