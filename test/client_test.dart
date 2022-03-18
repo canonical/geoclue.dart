@@ -35,6 +35,19 @@ void main() {
     expect(await client.getLocation(), isNull);
   });
 
+  test('unknown location', () async {
+    final controller = StreamController<DBusPropertiesChangedSignal>();
+    final object = createMockRemoteObject(
+      propertiesChanged: controller.stream,
+      properties: {'Location': DBusObjectPath('/')},
+    );
+
+    final client = GeoClueClient(object);
+    await client.start();
+
+    expect(await client.getLocation(), isNull);
+  });
+
   test('location', () async {
     final controller = StreamController<DBusPropertiesChangedSignal>();
     final object = createMockRemoteObject(

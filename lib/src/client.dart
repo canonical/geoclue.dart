@@ -141,7 +141,7 @@ class GeoClueClient {
   Stream<List<String>> get propertiesChanged => _propertyController.stream;
 
   Future<GeoClueLocation?> _buildLocation(DBusObjectPath? path) async {
-    if (path == null) return null;
+    if (path == null || path.value == '/') return null;
     final object = DBusRemoteObject(_object.client, name: kBus, path: path);
     final properties = await object.getAllProperties(kLocation);
     return GeoClueLocation.fromProperties(properties);
