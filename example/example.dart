@@ -8,7 +8,12 @@ Future<void> main() async {
   await client.setDesktopId('<desktop-id>');
   await client.start();
 
-  print(await client.getLocation());
-
-  await manager.close();
+  print('Available accuracy: ${manager.availableAccuracyLevel.name}');
+  print('Last known location: ${await client.getLocation() ?? 'unknown'}');
+  print('Waiting 10s for location updates...');
+  client.locationUpdated
+      .timeout(const Duration(seconds: 10), onTimeout: (_) => manager.close())
+      .listen((location) {
+    print('... $location');
+  });
 }
