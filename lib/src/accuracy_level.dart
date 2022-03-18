@@ -1,20 +1,62 @@
+import 'package:meta/meta.dart';
+
 /// Used to specify level of accuracy requested by, or allowed for a client.
-enum GeoClueAccuracyLevel {
+@immutable
+class GeoClueAccuracyLevel {
+  const GeoClueAccuracyLevel._(this.value, this.name);
+
+  /// The value of the accuracy level.
+  final int value;
+
+  /// The name of the accuracy level.
+  final String name;
+
   /// Accuracy level unknown or unset.
-  none,
+  static const none = GeoClueAccuracyLevel._(0, 'none');
 
   /// Country-level accuracy.
-  country,
+  static const country = GeoClueAccuracyLevel._(1, 'country');
 
   /// City-level accuracy.
-  city,
+  static const city = GeoClueAccuracyLevel._(4, 'city');
 
-  /// neighborhood-level accuracy.
-  neighborhood,
+  /// Neighborhood-level accuracy.
+  static const neighborhood = GeoClueAccuracyLevel._(5, 'neighborhood');
 
   /// Street-level accuracy.
-  street,
+  static const street = GeoClueAccuracyLevel._(6, 'street');
 
   /// Exact accuracy. Typically requires GPS receiver.
-  exact,
+  static const exact = GeoClueAccuracyLevel._(8, 'exact');
+
+  /// All available accuracy level values.
+  static const levels = <GeoClueAccuracyLevel>[
+    none,
+    country,
+    city,
+    neighborhood,
+    street,
+    exact,
+  ];
+
+  /// Returns the level by [value].
+  static GeoClueAccuracyLevel byValue(int value) {
+    for (final level in levels) {
+      if (level.value == value) return level;
+    }
+    throw ArgumentError.value(value, 'value', 'No level value with that value');
+  }
+
+  @override
+  String toString() => 'GeoClueAccuracyLevel.$name';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is GeoClueAccuracyLevel && other.value == value;
+  }
+
+  @override
+  int get hashCode => value.hashCode;
 }

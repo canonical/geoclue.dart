@@ -35,7 +35,7 @@ class GeoClueManager {
 
   /// The level of available accuracy.
   GeoClueAccuracyLevel get availableAccuracyLevel =>
-      GeoClueAccuracyLevel.values[_getProperty('AvailableAccuracyLevel', 0)];
+      GeoClueAccuracyLevel.byValue(_getProperty('AvailableAccuracyLevel', 0));
 
   /// Connects to the GeoClue service.
   Future<void> connect() {

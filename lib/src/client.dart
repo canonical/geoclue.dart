@@ -91,7 +91,7 @@ class GeoClueClient {
   /// dependent on available hardware on your machine, external resources and/or
   /// how much accuracy user agrees to be confortable with.
   GeoClueAccuracyLevel get requestedAccuracyLevel =>
-      GeoClueAccuracyLevel.values[_getProperty('RequestedAccuracyLevel', 0)];
+      GeoClueAccuracyLevel.byValue(_getProperty('RequestedAccuracyLevel', 0));
 
   /// The current time threshold in seconds.
   ///
@@ -126,7 +126,7 @@ class GeoClueClient {
   /// See also:
   ///  * [requestedAccuracyLevel]
   Future<void> setRequestedAccuracyLevel(GeoClueAccuracyLevel level) {
-    return _setProperty('RequestedAccuracyLevel', DBusUint32(level.index));
+    return _setProperty('RequestedAccuracyLevel', DBusUint32(level.value));
   }
 
   /// Sets the time threshold in seconds.

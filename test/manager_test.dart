@@ -88,7 +88,7 @@ void main() {
     final object = createMockRemoteObject(
       propertiesChanged: controller.stream,
       properties: {
-        'AvailableAccuracyLevel': DBusUint32(GeoClueAccuracyLevel.city.index),
+        'AvailableAccuracyLevel': DBusUint32(GeoClueAccuracyLevel.city.value),
       },
     );
 
@@ -101,7 +101,7 @@ void main() {
 
     // changed
     controller.add(createMockPropertiesChangedSignal(
-      {'AvailableAccuracyLevel': DBusUint32(GeoClueAccuracyLevel.street.index)},
+      {'AvailableAccuracyLevel': DBusUint32(GeoClueAccuracyLevel.street.value)},
     ));
     await expectLater(
         manager.propertiesChanged, emits(['AvailableAccuracyLevel']));
