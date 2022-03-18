@@ -107,25 +107,8 @@ void main() {
 MockDBusRemoteObject createMockRemoteObject({
   Stream<DBusPropertiesChangedSignal>? propertiesChanged,
   Map<String, DBusValue>? properties,
-  //Map<DBusObjectPath, Map<String, DBusValue>>? clients,
 }) {
   final dbus = MockDBusClient();
-  // if (clients != null) {
-  //   when(dbus.callMethod(
-  //     destination: kBus,
-  //     path: anyNamed('path'),
-  //     interface: 'org.freedesktop.DBus.Properties',
-  //     name: 'GetAll',
-  //     values: [const DBusString(kClient)],
-  //     replySignature: anyNamed('replySignature'),
-  //   )).thenAnswer((invocation) async {
-  //     final path =
-  //         invocation.namedArguments[const Symbol('path')] as DBusObjectPath;
-  //     return DBusMethodSuccessResponse(
-  //         [DBusDict.stringVariant(clients[path]!)]);
-  //   });
-  // }
-
   final object = MockDBusRemoteObject();
   when(object.client).thenReturn(dbus);
   when(object.propertiesChanged)
