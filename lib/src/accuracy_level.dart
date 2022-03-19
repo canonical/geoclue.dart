@@ -49,14 +49,4 @@ class GeoClueAccuracyLevel {
 
   @override
   String toString() => 'GeoClueAccuracyLevel.$name';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is GeoClueAccuracyLevel && other.value == value;
-  }
-
-  @override
-  int get hashCode => value.hashCode;
 }
