@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dbus/dbus.dart';
 import 'package:geoclue/geoclue.dart';
-import 'package:geoclue/src/geoclue.dart';
+import 'package:geoclue/src/constants.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';

@@ -1,12 +1,4 @@
-import 'dart:async';
-
-import 'package:dbus/dbus.dart';
-import 'package:meta/meta.dart';
-
-import 'accuracy_level.dart';
-import 'client.dart';
-import 'geoclue.dart';
-import 'util.dart';
+part of 'geoclue.dart';
 
 /// The GeoClue service manager
 class GeoClueManager {
@@ -27,7 +19,6 @@ class GeoClueManager {
   final DBusRemoteObject _object;
   final _properties = <String, DBusValue>{};
   final _propertyController = StreamController<List<String>>.broadcast();
-  final _clients = <GeoClueClient, DBusObjectPath>{};
   StreamSubscription? _propertySubscription;
 
   /// Whether service is currently is use by any application.
@@ -80,11 +71,9 @@ class GeoClueManager {
   }
 
   GeoClueClient _buildClient(DBusObjectPath path) {
-    final client = GeoClueClient(
+    return GeoClueClient(
       DBusRemoteObject(_object.client, name: kBus, path: path),
     );
-    _clients[client] = path;
-    return client;
   }
 
   /// Use this method to explicitly destroy a client, created using [getClient]
@@ -95,9 +84,7 @@ class GeoClueManager {
   /// for communicating with Geoclue (which is implicit on client process
   /// termination).
   Future<void> deleteClient(GeoClueClient client) {
-    final path = _clients.remove(client);
-    assert(path != null);
-    return _object.callMethod(kManager, 'DeleteClient', [path!],
+    return _object.callMethod(kManager, 'DeleteClient', [client._object.path],
         replySignature: DBusSignature(''));
   }
 

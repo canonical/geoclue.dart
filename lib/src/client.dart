@@ -1,11 +1,4 @@
-import 'dart:async';
-
-import 'package:dbus/dbus.dart';
-
-import 'accuracy_level.dart';
-import 'geoclue.dart';
-import 'location.dart';
-import 'util.dart';
+part of 'geoclue.dart';
 
 /// Retrieves location information and receives location update events from the
 /// the GeoClue service.
