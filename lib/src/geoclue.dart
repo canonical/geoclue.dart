@@ -1,4 +1,12 @@
-const kBus = 'org.freedesktop.GeoClue2';
-const kClient = 'org.freedesktop.GeoClue2.Client';
-const kLocation = 'org.freedesktop.GeoClue2.Location';
-const kManager = 'org.freedesktop.GeoClue2.Manager';
+import 'dart:async';
+
+import 'package:dbus/dbus.dart';
+import 'package:meta/meta.dart';
+
+import 'accuracy_level.dart';
+import 'constants.dart';
+import 'location.dart';
+import 'util.dart';
+
+part 'client.dart';
+part 'manager.dart';

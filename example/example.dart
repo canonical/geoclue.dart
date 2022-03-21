@@ -11,7 +11,7 @@ Future<void> main() async {
 
   print('Available accuracy: ${manager.availableAccuracyLevel.name}');
   print('Requested accuracy: ${client.requestedAccuracyLevel.name}');
-  print('Last known location: ${await client.getLocation() ?? 'unknown'}');
+  print('Last known location: ${client.location ?? 'unknown'}');
   print('Waiting 10s for location updates...');
   client.locationUpdated
       .timeout(const Duration(seconds: 10), onTimeout: (_) => manager.close())

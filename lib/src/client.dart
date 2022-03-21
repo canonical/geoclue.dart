@@ -1,11 +1,4 @@
-import 'dart:async';
-
-import 'package:dbus/dbus.dart';
-
-import 'accuracy_level.dart';
-import 'geoclue.dart';
-import 'location.dart';
-import 'util.dart';
+part of 'geoclue.dart';
 
 /// Retrieves location information and receives location update events from the
 /// the GeoClue service.
@@ -18,6 +11,7 @@ class GeoClueClient {
   final _propertyController = StreamController<List<String>>.broadcast();
   final _locationController = StreamController<GeoClueLocation>.broadcast();
   StreamSubscription? _propertySubscription;
+  GeoClueLocation? _location;
 
   /// Start receiving events about the current location.
   ///
@@ -54,15 +48,13 @@ class GeoClueClient {
   /// changes, should watch for changes in this property.
   bool get active => _getProperty('Active', false);
 
-  /// Returns the current location.
+  /// Returns the last known location.
   ///
   /// Please note that this returns null initially, until Geoclue finds user's
   /// location. You want to delay reading this property until your callback to
   /// "LocationUpdated" signal is called for the first time after starting the
   /// client.
-  Future<GeoClueLocation?> getLocation() {
-    return _buildLocation(_properties['Location'] as DBusObjectPath?);
-  }
+  GeoClueLocation? get location => _location;
 
   /// A stream of location updates.
   ///
@@ -144,8 +136,8 @@ class GeoClueClient {
   /// Stream of property names as they change.
   Stream<List<String>> get propertiesChanged => _propertyController.stream;
 
-  Future<GeoClueLocation?> _buildLocation(DBusObjectPath? path) async {
-    if (path == null || path.value == '/') return null;
+  Future<GeoClueLocation?> _buildLocation(DBusObjectPath path) async {
+    if (path.value == '/') return null;
     final object = DBusRemoteObject(_object.client, name: kBus, path: path);
     final properties = await object.getAllProperties(kLocation);
     return GeoClueLocation.fromProperties(properties);
@@ -159,16 +151,16 @@ class GeoClueClient {
     return _object.setProperty(kClient, key, value);
   }
 
-  Future<void> _updateProperties(Map<String, DBusValue> properties) {
+  Future<void> _updateProperties(Map<String, DBusValue> properties) async {
+    final path = properties['Location'] as DBusObjectPath?;
+    if (path != null) {
+      _location = await _buildLocation(path);
+    }
     _properties.addAll(properties);
     _propertyController.add(properties.keys.toList());
-
-    return _buildLocation(properties['Location'] as DBusObjectPath?)
-        .then((location) {
-      if (location != null) {
-        _locationController.add(location);
-      }
-    });
+    if (path != null && _location != null) {
+      _locationController.add(_location!);
+    }
   }
 
   @override

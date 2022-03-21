@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dbus/dbus.dart';
 import 'package:geoclue/geoclue.dart';
-import 'package:geoclue/src/geoclue.dart';
+import 'package:geoclue/src/constants.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -32,7 +32,7 @@ void main() {
     final object = createMockRemoteObject();
 
     final client = GeoClueClient(object);
-    expect(await client.getLocation(), isNull);
+    expect(client.location, isNull);
   });
 
   test('unknown location', () async {
@@ -45,7 +45,7 @@ void main() {
     final client = GeoClueClient(object);
     await client.start();
 
-    expect(await client.getLocation(), isNull);
+    expect(client.location, isNull);
   });
 
   test('location', () async {
@@ -75,7 +75,7 @@ void main() {
 
     // init
     const l1 = GeoClueLocation(accuracy: 0.1, latitude: 1.2, longitude: 2.3);
-    expect(await client.getLocation(), equals(l1));
+    expect(client.location, equals(l1));
 
     // changed
     const l2 = GeoClueLocation(accuracy: 4.5, latitude: 5.6, longitude: 6.7);
@@ -86,7 +86,7 @@ void main() {
       expectAsync1((value) => expect(value, equals(l2)), count: 1),
     );
     await expectLater(client.propertiesChanged, emits(['Location']));
-    expect(await client.getLocation(), equals(l2));
+    expect(client.location, equals(l2));
   });
 
   test('is active', () async {
