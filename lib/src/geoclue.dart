@@ -10,3 +10,4 @@ import 'util.dart';
 
 part 'client.dart';
 part 'manager.dart';
+part 'simple.dart';

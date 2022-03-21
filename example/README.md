@@ -1,5 +1,9 @@
 # GeoClue for Dart examples
 
+- [simple.dart](https://github.com/jpnurmi/geoclue.dart/blob/main/example/simple.dart)
+
+  A minimal example to get the current location and listen to location updates.
+
 - [example.dart](https://github.com/jpnurmi/geoclue.dart/blob/main/example/example.dart)
 
   A simple _Where Am I?_ example using GeoClue. Basic functionality:
