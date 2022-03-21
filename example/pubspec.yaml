@@ -1,0 +1,15 @@
+name: example
+description: A simple Where Am I? example using GeoClue.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=2.16.1 <3.0.0'
+
+
+dependencies:
+  geoclue:
+    path: ../
+
+dev_dependencies:
+  lints: ^1.0.0
