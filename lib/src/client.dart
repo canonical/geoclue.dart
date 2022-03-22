@@ -96,6 +96,7 @@ class GeoClueClient {
   int get timeThreshold => _getProperty('TimeThreshold', 0);
 
   /// Sets the desktop file ID (the basename of the desktop file).
+  /// To take effect, must be used before calling [start].
   ///
   /// This property must be set by applications for authorization to work.
   ///
@@ -106,6 +107,7 @@ class GeoClueClient {
   }
 
   /// Sets the distance threshold in meters.
+  /// To take effect, must be used before calling [start].
   //
   /// See also:
   ///  * [distanceThreshold]
@@ -114,6 +116,7 @@ class GeoClueClient {
   }
 
   /// Sets the requested accuracy level.
+  /// To take effect, must be used before calling [start].
   ///
   /// See also:
   ///  * [requestedAccuracyLevel]
@@ -122,6 +125,7 @@ class GeoClueClient {
   }
 
   /// Sets the time threshold in seconds.
+  /// To take effect, must be used before calling [start].
   ///
   /// See also:
   ///  * [timeThreshold]
