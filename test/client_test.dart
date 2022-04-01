@@ -145,7 +145,7 @@ void main() {
     final controller = StreamController<DBusPropertiesChangedSignal>();
     final object = createMockRemoteObject(
       propertiesChanged: controller.stream,
-      properties: {'DistanceThreshold': DBusUint32(12)},
+      properties: {'DistanceThreshold': const DBusUint32(12)},
     );
 
     final client = GeoClueClient(object);
@@ -157,7 +157,7 @@ void main() {
 
     // changed
     controller.add(createMockPropertiesChangedSignal(
-      {'DistanceThreshold': DBusUint32(34)},
+      {'DistanceThreshold': const DBusUint32(34)},
     ));
     await expectLater(client.propertiesChanged, emits(['DistanceThreshold']));
     expect(client.distanceThreshold, equals(34));
@@ -165,7 +165,7 @@ void main() {
     // set
     await client.setDistanceThreshold(56);
     verify(
-      object.setProperty(kClient, 'DistanceThreshold', DBusUint32(56)),
+      object.setProperty(kClient, 'DistanceThreshold', const DBusUint32(56)),
     ).called(1);
   });
 
@@ -209,7 +209,7 @@ void main() {
 
     final object = createMockRemoteObject(
       propertiesChanged: controller.stream,
-      properties: {'TimeThreshold': DBusUint32(12)},
+      properties: {'TimeThreshold': const DBusUint32(12)},
     );
 
     final client = GeoClueClient(object);
@@ -221,7 +221,7 @@ void main() {
 
     // changed
     controller.add(createMockPropertiesChangedSignal(
-      {'TimeThreshold': DBusUint32(34)},
+      {'TimeThreshold': const DBusUint32(34)},
     ));
     await expectLater(client.propertiesChanged, emits(['TimeThreshold']));
     expect(client.timeThreshold, equals(34));
@@ -229,7 +229,7 @@ void main() {
     // set
     await client.setTimeThreshold(56);
     verify(
-      object.setProperty(kClient, 'TimeThreshold', DBusUint32(56)),
+      object.setProperty(kClient, 'TimeThreshold', const DBusUint32(56)),
     ).called(1);
   });
 }

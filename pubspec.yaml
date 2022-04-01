@@ -10,7 +10,7 @@ platforms:
   linux:
 
 dependencies:
-  dbus: ^0.7.1
+  dbus: ^0.7.3
   meta: ^1.7.0
 
 dev_dependencies:
