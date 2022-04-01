@@ -22,7 +22,7 @@ void main() {
     expect(await GeoClue.getLocation(manager: manager), l1);
     verify(manager.connect()).called(1);
     verify(manager.getClient()).called(1);
-    verify(manager.close()).called(1);
+    verifyNever(manager.close()); // unowned manager
 
     verify(client.start()).called(1);
     verify(client.stop()).called(1);
@@ -41,7 +41,7 @@ void main() {
     expect(await GeoClue.getLocation(manager: manager), l1);
     verify(manager.connect()).called(1);
     verify(manager.getClient()).called(1);
-    verify(manager.close()).called(1);
+    verifyNever(manager.close()); // unowned manager
 
     verify(client.start()).called(1);
     verify(client.stop()).called(1);
@@ -84,8 +84,7 @@ void main() {
     controller.add(l2);
     await expectLater(updates, emitsInOrder(<GeoClueLocation>[l1, l2]));
 
-    await untilCalled(manager.close());
-    verify(manager.close()).called(1);
-    verify(client.stop()).called(1);
+    await untilCalled(client.stop());
+    verifyNever(manager.close()); // unowned manager
   });
 }
