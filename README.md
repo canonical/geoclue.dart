@@ -16,19 +16,21 @@ sources to best find user's location:
 
 
 ```dart
+import 'dart:async';
+
 import 'package:geoclue/geoclue.dart';
 
 Future<void> main() async {
-  final manager = GeoClueManager();
-  await manager.connect();
+  final location = await GeoClue.getLocation(desktopId: '<desktop-id>');
+  print('Last known location: ${location ?? 'unknown'}');
 
-  final client = await manager.getClient();
-  await client.setDesktopId('<desktop-id>');
-  await client.start();
-
-  print(await client.getLocation()); // "GeoClueLocation(..., latitude: 12.34, longitude: 56.78, ...)"
-
-  await manager.close();
+  print('Waiting 10s for location updates...');
+  late StreamSubscription sub;
+  sub = GeoClue.getLocationUpdates(desktopId: '<desktop-id>')
+      .timeout(const Duration(seconds: 10), onTimeout: (_) => sub.cancel())
+      .listen((location) {
+    print('... $location');
+  });
 }
 ```
 
