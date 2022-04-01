@@ -13,7 +13,7 @@ class GeoClue {
   GeoClue._();
 
   /// Returns the last known location or waits for a location update if unknown.
-  static Future<GeoClueLocation?> getLocation({
+  static Future<GeoClueLocation> getLocation({
     GeoClueManager? manager,
     String? desktopId,
     GeoClueAccuracyLevel? accuracyLevel,
