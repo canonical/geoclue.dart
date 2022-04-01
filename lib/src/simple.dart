@@ -54,8 +54,10 @@ class GeoClue {
 
 class _GeoClueSimple {
   _GeoClueSimple(GeoClueManager? manager)
-      : _manager = manager ?? GeoClueManager();
+      : _manager = manager ?? GeoClueManager(),
+        _closeManager = manager == null;
 
+  final bool _closeManager;
   final GeoClueManager _manager;
 
   Future<GeoClueClient> start({
@@ -84,6 +86,8 @@ class _GeoClueSimple {
 
   Future<void> stop(GeoClueClient client) async {
     await client.stop();
-    await _manager.close();
+    if (_closeManager) {
+      await _manager.close();
+    }
   }
 }
