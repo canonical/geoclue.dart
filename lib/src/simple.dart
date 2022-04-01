@@ -12,7 +12,7 @@ part of 'geoclue.dart';
 class GeoClue {
   GeoClue._();
 
-  /// Returns the last known location or waits for a location update if unknown.
+  /// Returns the current location or waits for a location update if unknown.
   static Future<GeoClueLocation> getLocation({
     GeoClueManager? manager,
     String? desktopId,
