@@ -19,7 +19,7 @@
 ///   print('Current location: $location');
 ///
 ///   print('Waiting 10s for location updates...');
-///   late StreamSubscription sub;
+///   late final StreamSubscription sub;
 ///   sub = GeoClue.getLocationUpdates(desktopId: '<desktop-id>')
 ///       .timeout(const Duration(seconds: 10), onTimeout: (_) => sub.cancel())
 ///       .listen((location) {
