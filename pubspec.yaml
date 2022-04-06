@@ -1,6 +1,8 @@
 name: geoclue
 description: "GeoClue: The Geolocation Service"
 homepage: https://gitlab.freedesktop.org/geoclue/geoclue/-/wikis/home
+repository: https://github.com/jpnurmi/geoclue.dart
+issue_tracker: https://github.com/jpnurmi/geoclue.dart/issues
 version: 0.1.0
 
 environment:
