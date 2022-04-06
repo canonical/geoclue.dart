@@ -1,7 +1,7 @@
 name: geoclue
 description: "GeoClue: The Geolocation Service"
 homepage: https://gitlab.freedesktop.org/geoclue/geoclue/-/wikis/home
-version: 0.0.1
+version: 0.1.0
 
 environment:
   sdk: '>=2.16.0 <3.0.0'
