@@ -47,8 +47,11 @@ class GeoClue {
       distanceThreshold: distanceThreshold,
       timeThreshold: timeThreshold,
     );
-    yield* client.locationUpdated;
-    await simple.stop(client);
+    try {
+      yield* client.locationUpdated;
+    } finally {
+      await simple.stop(client);
+    }
   }
 }
 
