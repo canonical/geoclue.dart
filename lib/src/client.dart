@@ -10,7 +10,7 @@ class GeoClueClient {
   final _properties = <String, DBusValue>{};
   final _propertyController = StreamController<List<String>>.broadcast();
   final _locationController = StreamController<GeoClueLocation>.broadcast();
-  StreamSubscription? _propertySubscription;
+  StreamSubscription<DBusPropertiesChangedSignal>? _propertySubscription;
   GeoClueLocation? _location;
 
   /// Start receiving events about the current location.
