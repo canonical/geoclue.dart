@@ -19,7 +19,7 @@ class GeoClueManager {
   final DBusRemoteObject _object;
   final _properties = <String, DBusValue>{};
   final _propertyController = StreamController<List<String>>.broadcast();
-  StreamSubscription? _propertySubscription;
+  StreamSubscription<DBusPropertiesChangedSignal>? _propertySubscription;
 
   /// Whether service is currently is use by any application.
   bool get inUse => _getProperty('InUse', false);
